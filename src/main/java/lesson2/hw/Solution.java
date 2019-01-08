@@ -17,20 +17,6 @@ public class Solution {
     private static final String USER = "main";
     private static final String PASS = "Main4309050";
 
-    public static void main(String[] args) {
-        //changeDescription();
-        LocalDateTime dateTime = LocalDateTime.now().minusDays(2);
-        Locale locale = new Locale("en", "US", "SiliconValley");
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss");
-        String dateT = dateTime.format(dateTimeFormatter.withLocale(locale));
-        System.out.println(dateT);
-        System.out.println(ZoneId.getAvailableZoneIds());  // zoneId = new ZoneId();
-        dateTimeFormatter = dateTimeFormatter.localizedBy(locale);
-        System.out.println(LocalDateTime.now().format(dateTimeFormatter));
-
-        //System.out.println(dateTimeFormatter.withZone(ZoneId.("US/Pacific-New")));
-
-    }
 
     // который будет сохранять продукт в таблицу PRODUCT со значениями полей по порядку - 999, toy, for children, 60
     public static void saveProduct() {
