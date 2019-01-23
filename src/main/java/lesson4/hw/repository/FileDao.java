@@ -8,9 +8,9 @@ import java.util.List;
 
 public class FileDao {
     private StorageDao storageDao = new StorageDao();
-    static final String DB_URL = "jdbc:oracle:thin:@test.cgjumrd6z5jk.us-east-1.rds.amazonaws.com:1521:ORCL";
-    static final String USER = "main";
-    static final String PASS = "Main4309050";
+    private static final String DB_URL = "jdbc:oracle:thin:@test.cgjumrd6z5jk.us-east-1.rds.amazonaws.com:1521:ORCL";
+    private static final String USER = "main";
+    private static final String PASS = "Main4309050";
 
 
     private String sqlSave = "INSERT INTO FILES (FILE_NAME, FILE_FORMAT, FILE_SIZE, STORAGE_ID) VALUES (?, ?, ?, ?)";

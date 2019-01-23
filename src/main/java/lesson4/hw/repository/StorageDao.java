@@ -4,9 +4,11 @@ import lesson4.hw.model.Storage;
 
 import java.sql.*;
 
-import static lesson4.hw.repository.FileDao.*;
-
 public class StorageDao {
+    private static final String DB_URL = "jdbc:oracle:thin:@test.cgjumrd6z5jk.us-east-1.rds.amazonaws.com:1521:ORCL";
+    private static final String USER = "main";
+    private static final String PASS = "Main4309050";
+
     private String sqlSave = "INSERT INTO STORAGE (STORAGE_COUNTRY, STORAGE_MAX_SIZE, FILE_FORMAT) VALUES (?, ?, ?)";
     private String sqlUpdate = "UPDATE STORAGE SET STORAGE_COUNTRY = ?, STORAGE_MAX_SIZE = ?, FILE_FORMAT = ? WHERE ID = ?";
     private String sqlFindById = "SELECT * FROM STORAGE WHERE ID = ?";
