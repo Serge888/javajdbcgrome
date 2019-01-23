@@ -15,8 +15,8 @@ public class FileDao {
 
     private String sqlSave = "INSERT INTO FILES (FILE_NAME, FILE_FORMAT, FILE_SIZE, STORAGE_ID) VALUES (?, ?, ?, ?)";
     private String sqlUpdateList = "UPDATE FILES SET FILE_NAME = ?, FILE_FORMAT = ?, FILE_SIZE = ?, STORAGE_ID = ? WHERE ID = ?";
-    private String sqlFindById = "SELECT * FROM FILES WHERE ID = ";
-    private String sqlFindAllInStorage = "SELECT * FROM FILES WHERE STORAGE_ID = ";
+    private String sqlFindById = "SELECT * FROM FILES WHERE ID = ?";
+    private String sqlFindAllInStorage = "SELECT * FROM FILES WHERE STORAGE_ID = ?";
     private String sqlDelete = "DELETE FROM FILES WHERE ID = ?";
 
     public File save(File file) {
@@ -66,9 +66,10 @@ public class FileDao {
 
 
     public File findById(long id) {
-        sqlFindById = sqlFindById + id;
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sqlFindById);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlFindById)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return new File(resultSet.getLong(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getLong(4),
@@ -83,9 +84,10 @@ public class FileDao {
 
     public List<File> findAllInStorage(long storageId) {
         List<File> foundFiles = new ArrayList<>();
-        sqlFindAllInStorage = sqlFindAllInStorage + storageId;
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sqlFindAllInStorage);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlFindAllInStorage)) {
+            preparedStatement.setLong(1, storageId);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 File file = new File(resultSet.getLong(1), resultSet.getString(2),
                         resultSet.getString(3), resultSet.getLong(4),

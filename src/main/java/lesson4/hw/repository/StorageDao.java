@@ -9,7 +9,7 @@ import static lesson4.hw.repository.FileDao.*;
 public class StorageDao {
     private String sqlSave = "INSERT INTO STORAGE (STORAGE_COUNTRY, STORAGE_MAX_SIZE, FILE_FORMAT) VALUES (?, ?, ?)";
     private String sqlUpdate = "UPDATE STORAGE SET STORAGE_COUNTRY = ?, STORAGE_MAX_SIZE = ?, FILE_FORMAT = ? WHERE ID = ?";
-    private String sqlFindById = "SELECT * FROM STORAGE WHERE ID = ";
+    private String sqlFindById = "SELECT * FROM STORAGE WHERE ID = ?";
     private String sqlDelete = "DELETE FROM STORAGE WHERE ID = ?";
 
     public Storage save(Storage storage) {
@@ -44,9 +44,10 @@ public class StorageDao {
     }
 
     public Storage findById(long id) {
-        sqlFindById = sqlFindById + id;
-        try (Connection connection = getConnection(); Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sqlFindById);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlFindById)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return new Storage(resultSet.getLong(1), resultSet.getString(2),
                         resultSet.getLong(3), formatsToArray(resultSet.getString(4)));

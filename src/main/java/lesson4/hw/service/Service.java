@@ -41,12 +41,13 @@ public class Service {
 
     // - трансфер всех файлов
     public void transferAll(Storage storageFrom, Storage storageTo) throws BadRequestException {
-        allFilesTransferValidation(storageFrom, storageTo);
-        List<File> files = fileDao.findAllInStorage(storageFrom.getId());
-        for (File file : files) {
+        List<File> filesFrom = fileDao.findAllInStorage(storageFrom.getId());
+        List<File> filesTo = fileDao.findAllInStorage(storageTo.getId());
+        allFilesTransferValidation(storageFrom, storageTo, filesFrom, filesTo);
+        for (File file : filesFrom) {
             file.setStorage(storageTo);
         }
-        fileDao.update(files);
+        fileDao.update(filesFrom);
     }
 
     //    - трансфер файла с хранилища storageFrom по его айди Если операцию выполнить
@@ -54,47 +55,48 @@ public class Service {
 // с текстом ошибки. В тексте пишите ее причину и обязательно включайте id файла,
 // который не удалось доставить и id хранилища, куда доставка не удалась
     public void transferFile(Storage storageFrom, Storage storageTo, long id) throws BadRequestException {
+        List<File> filesTo = fileDao.findAllInStorage(storageTo.getId());
         File file = fileDao.findById(id);
         if (file.getStorage() == null || !file.getStorage().equals(storageFrom)) {
             throw new BadRequestException("File with id " + file.getId() + " doesn't exist in storage id "
                     + storageFrom.getId());
         }
-        oneFileValidation(storageTo, file);
+        oneFileValidation(filesTo, file, storageTo);
         file.setStorage(storageTo);
         List<File> files = new ArrayList<>();
         files.add(file);
         fileDao.update(files);
     }
 
-    private void oneFileValidation(Storage storageTo, File file) throws BadRequestException {
-        long availableSpaceTo = storageTo.getStorageMaxSize() - takenPlaceInStorage(storageTo);
+    private void oneFileValidation(List<File> filesTo, File file, Storage storageTo) throws BadRequestException {
+        long availableSpaceTo = storageTo.getStorageMaxSize() - takenPlaceInStorage(filesTo);
         if (file.getSize() > availableSpaceTo) {
             throw new BadRequestException("Space in storage with id " + storageTo.getId() + " is not enough " +
                     " for file id " + file.getId());
         }
         isFormatSupported(storageTo, file);
-        isFileAllreadyInStorage(storageTo, file);
+        isFileAlreadyInStorage(filesTo, file, storageTo.getId());
     }
 
-    private void allFilesTransferValidation(Storage storageFrom, Storage storageTo) throws BadRequestException {
-        long availableSpaceTo = storageTo.getStorageMaxSize() - takenPlaceInStorage(storageTo);
-        if (takenPlaceInStorage(storageFrom) > availableSpaceTo) {
+    private void allFilesTransferValidation(Storage storageFrom, Storage storageTo,
+                                            List<File> filesFrom, List<File> filesTo) throws BadRequestException {
+        long availableSpaceTo = storageTo.getStorageMaxSize() - takenPlaceInStorage(filesTo);
+        if (takenPlaceInStorage(filesFrom) > availableSpaceTo) {
             throw new BadRequestException("Space in storage with id " + storageTo.getId() + " is not enough");
         }
-        for (File file : fileDao.findAllInStorage(storageFrom.getId())) {
+        for (File file : filesFrom) {
             isFormatSupported(storageTo, file);
         }
-        for (File file : fileDao.findAllInStorage(storageFrom.getId())) {
-            isFileAllreadyInStorage(storageTo, file);
+        for (File file : filesFrom) {
+            isFileAlreadyInStorage(filesTo, file, storageTo.getId());
         }
     }
 
 
 
-    private long takenPlaceInStorage(Storage storage) {
+    private long takenPlaceInStorage(List<File> files) {
         long takenPlace = 0;
-        List<File> filesInTo = fileDao.findAllInStorage(storage.getId());
-        for (File file : filesInTo) {
+        for (File file : files) {
             takenPlace += file.getSize();
         }
         return takenPlace;
@@ -111,12 +113,12 @@ public class Service {
                 "storage id " + storageTo.getId());
     }
 
-    private void isFileAllreadyInStorage(Storage storageTo, File file) throws BadRequestException {
+    private void isFileAlreadyInStorage(List<File> filesTo, File file , long storageToId) throws BadRequestException {
         long id = file.getId();
-        for (File fileEl : fileDao.findAllInStorage(storageTo.getId())) {
+        for (File fileEl : filesTo) {
             if (id == fileEl.getId()) {
                 throw new BadRequestException("File id " + file.getId() + " already exists in storage id "
-                        + storageTo.getId());
+                        + storageToId);
             }
         }
 

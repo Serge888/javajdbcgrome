@@ -19,8 +19,8 @@ public class Demo {
 
 //        controller.put(storageDao.findById(24), file2);
 //        controller.transferFile(storageDao.findById(21), storageDao.findById(2), 8);
-//        controller.transferAll(storageDao.findById(2), storageDao.findById(24));
-        controller.transferFile(storageDao.findById(24), storageDao.findById(25), 6);
+        controller.transferAll(storageDao.findById(25), storageDao.findById(24));
+//        controller.transferFile(storageDao.findById(24), storageDao.findById(25), 4);
 
 
 //        fileDao.save(storageDao.findById(24), file1);
