@@ -1,7 +1,7 @@
-package lesson5.hw;
+package hibernate.lesson1.hw;
 
-import lesson5.HibernateUtils;
-import lesson5.Product;
+import hibernate.lesson1.HibernateUtils;
+import hibernate.lesson1.Product;
 import org.hibernate.Session;
 
 public class ProductRepository {
