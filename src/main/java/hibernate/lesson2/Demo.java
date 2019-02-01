@@ -1,7 +1,5 @@
 package hibernate.lesson2;
 
-import hibernate.lesson1.Product;
-
 import java.util.Arrays;
 import java.util.List;
 
