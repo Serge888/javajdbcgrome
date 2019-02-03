@@ -103,7 +103,7 @@ public class GeneralDAO <T> {
             transaction = session.getTransaction();
             transaction.begin();
 
-            Query<T> query = session.createQuery(hql);
+            Query query = session.createQuery(hql);
 
             foundObjects.addAll(query.list());
 
