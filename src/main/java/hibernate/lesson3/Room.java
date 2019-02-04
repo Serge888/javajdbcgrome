@@ -72,7 +72,7 @@ public class Room {
         this.dateAvailableFrom = dateAvailableFrom;
     }
 
-    @OneToOne (optional=false, cascade=CascadeType.ALL)
+    @OneToOne (optional=false, fetch=FetchType.LAZY)
     @JoinColumn (name="HOTEL_ID")
     public Hotel getHotel() {
         return hotel;
