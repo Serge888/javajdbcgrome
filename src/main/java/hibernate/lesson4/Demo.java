@@ -1,9 +1,9 @@
 package hibernate.lesson4;
 
-import hibernate.lesson4.dao.HotelDAO;
-import hibernate.lesson4.dao.OrderDAO;
-import hibernate.lesson4.dao.RoomDAO;
-import hibernate.lesson4.dao.UserDAO;
+import hibernate.lesson4.controller.HotelController;
+import hibernate.lesson4.controller.OrderController;
+import hibernate.lesson4.controller.RoomController;
+import hibernate.lesson4.controller.UserController;
 import hibernate.lesson4.exception.BadRequestException;
 import hibernate.lesson4.model.Filter;
 import hibernate.lesson4.model.Hotel;
@@ -16,10 +16,10 @@ import static hibernate.lesson4.model.UserType.*;
 
 public class Demo {
     public static void main(String[] args) throws Exception {
-        UserDAO userDAO = new UserDAO();
-        HotelDAO hotelDAO = new HotelDAO();
-        RoomDAO roomDAO = new RoomDAO();
-        OrderDAO orderDAO = new OrderDAO();
+        UserController userController = new UserController();
+        HotelController hotelController = new HotelController();
+        RoomController roomController = new RoomController();
+        OrderController orderController = new OrderController();
 
 
 //        User user3 = new User();
@@ -34,11 +34,11 @@ public class Demo {
 //        user4.setCountry("UK");
 //        user4.setUserType(USER);
 //
-//        userDAO.registerUser(user3);
-//        userDAO.registerUser(user4);
+//        userController.registerUser(user3);
+//        userController.registerUser(user4);
 //
 //
-//        System.out.println(userDAO.findById(2));
+//        System.out.println(userController.findById(2));
 
 //        Hotel hotel1 = new Hotel();
 //        hotel1.setName("hotel1");
@@ -52,48 +52,48 @@ public class Demo {
 //        hotel2.setCity("NY");
 //        hotel2.setStreet("37");
 //
-//        hotelDAO.save(hotel1);
-//        hotelDAO.save(hotel2);
+//        hotelController.save(hotel1);
+//        hotelController.save(hotel2);
 
-//        System.out.println(hotelDAO.findById(4).getRooms());
+//        System.out.println(hotelController.findById(4).getRooms());
 
 //        Room room1 = new Room();
-//        room1.setHotel(hotelDAO.findById(4));
+//        room1.setHotel(hotelController.findById(4));
 //        room1.setNumberOfGuests(2);
 //        room1.setBreakfastIncluded(1);
 //        room1.setPetsAllowed(0);
 //        room1.setPrice(50.00);
 //
 //        Room room2 = new Room();
-//        room2.setHotel(hotelDAO.findById(4));
+//        room2.setHotel(hotelController.findById(4));
 //        room2.setNumberOfGuests(3);
 //        room2.setBreakfastIncluded(0);
 //        room2.setPetsAllowed(1);
 //        room2.setPrice(60.00);
 //
 //        Room room3 = new Room();
-//        room3.setHotel(hotelDAO.findById(4));
+//        room3.setHotel(hotelController.findById(4));
 //        room3.setNumberOfGuests(2);
 //        room3.setBreakfastIncluded(1);
 //        room3.setPetsAllowed(1);
 //        room3.setPrice(70.00);
 //
-//        roomDAO.save(room1);
-//        roomDAO.save(room2);
-//        roomDAO.save(room3);
+//        roomController.save(room1);
+//        roomController.save(room2);
+//        roomController.save(room3);
 
-//        System.out.println(roomDAO.findById(21));
+//        System.out.println(roomController.findById(21));
 
 
-//        roomDAO.bookRoom(21,2,new Date(), new Date(), 50.00);
-//        roomDAO.cancelReservation(1);
+//        roomController.bookRoom(21,2,new Date(), new Date(), 50.00);
+//        roomController.cancelReservation(1);
 
 //        Filter filter = new Filter();
 //        filter.setCity("NY");
 //
-//        System.out.println(roomDAO.findRooms(filter));
+//        System.out.println(roomController.findRooms(filter));
 
-//        System.out.println(hotelDAO.findHotelByCity("NY"));
+//        System.out.println(hotelController.findHotelByCity("NY"));
 
     }
 }

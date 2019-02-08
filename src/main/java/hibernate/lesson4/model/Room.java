@@ -75,11 +75,11 @@ public class Room {
 
     @ManyToOne (optional=false, fetch=FetchType.EAGER)
     @JoinColumn (name="HOTEL_ID", nullable=false)
-    public hibernate.lesson4.model.Hotel getHotel() {
+    public Hotel getHotel() {
         return hotel;
     }
 
-    public void setHotel(hibernate.lesson4.model.Hotel hotel) {
+    public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
 
