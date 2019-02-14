@@ -17,11 +17,6 @@ public class HotelDAO extends GeneralDAO<Hotel> {
         return findEntityBy(hqlFindByCity);
     }
 
-    public List<Hotel> getAll() {
-        String hqlFindByCity = "from Hotel";
-        return findEntityBy(hqlFindByCity);
-    }
-
     public Hotel save(Hotel hotel) {
         return saveEntity(hotel);
     }

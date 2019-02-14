@@ -8,10 +8,10 @@ import java.util.Objects;
 @Table(name = "ROOM")
 public class Room {
     private long id;
-    private int numberOfGuests;
-    private double price;
-    private int breakfastIncluded;
-    private int petsAllowed;
+    private Integer numberOfGuests;
+    private Double price;
+    private Integer breakfastIncluded;
+    private Integer petsAllowed;
     private Date dateAvailableFrom;
     private Hotel hotel;
 
@@ -29,38 +29,38 @@ public class Room {
     }
 
     @Column(name = "NUMBER_OF_GUESTS")
-    public int getNumberOfGuests() {
+    public Integer getNumberOfGuests() {
         return numberOfGuests;
     }
 
-    public void setNumberOfGuests(int numberOfGuests) {
+    public void setNumberOfGuests(Integer numberOfGuests) {
         this.numberOfGuests = numberOfGuests;
     }
 
     @Column(name = "PRICE")
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
     @Column(name = "BREAKFAST_INCLUDED")
-    public int getBreakfastIncluded() {
+    public Integer getBreakfastIncluded() {
         return breakfastIncluded;
     }
 
-    public void setBreakfastIncluded(int breakfastIncluded) {
+    public void setBreakfastIncluded(Integer breakfastIncluded) {
         this.breakfastIncluded = breakfastIncluded;
     }
 
     @Column(name = "PETS_ALLOWED")
-    public int getPetsAllowed() {
+    public Integer getPetsAllowed() {
         return petsAllowed;
     }
 
-    public void setPetsAllowed(int petsAllowed) {
+    public void setPetsAllowed(Integer petsAllowed) {
         this.petsAllowed = petsAllowed;
     }
 

@@ -88,10 +88,12 @@ public class Demo {
 //        roomController.bookRoom(21,2,new Date(), new Date(), 50.00);
 //        roomController.cancelReservation(1);
 
-//        Filter filter = new Filter();
-//        filter.setCity("NY");
-//
-//        System.out.println(roomController.findRooms(filter));
+        Filter filter = new Filter();
+        filter.setCity("NY");
+        filter.setMaxPrice(60.00);
+//        filter.setBreakfastIncluded(1);
+
+        System.out.println(roomController.findRooms(filter));
 
 //        System.out.println(hotelController.findHotelByCity("NY"));
 

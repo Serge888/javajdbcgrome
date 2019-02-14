@@ -16,10 +16,6 @@ public class HotelController {
         return hotelService.findHotelByCity(city);
     }
 
-    public List<Hotel> getAll() {
-        return hotelService.getAll();
-    }
-
     public Hotel save(Hotel hotel) {
         return hotelService.save(hotel);
     }

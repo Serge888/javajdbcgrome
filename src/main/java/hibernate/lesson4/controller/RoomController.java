@@ -15,9 +15,9 @@ public class RoomController {
         return roomService.findRooms(filter);
     }
 
-    public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo, double moneyPaid)
+    public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)
             throws BadRequestException {
-        roomService.bookRoom(roomId, userId, dateFrom, dateTo, moneyPaid);
+        roomService.bookRoom(roomId, userId, dateFrom, dateTo);
     }
 
     public void cancelReservation(long orderId) {
@@ -41,7 +41,4 @@ public class RoomController {
         return roomService.findById(id);
     }
 
-    public List<Room> getAll() {
-        return roomService.getAll();
-    }
 }

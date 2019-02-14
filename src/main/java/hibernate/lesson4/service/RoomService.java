@@ -14,9 +14,9 @@ public class RoomService {
         return roomDAO.findRooms(filter);
     }
 
-    public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo, double moneyPaid)
+    public void bookRoom(long roomId, long userId, Date dateFrom, Date dateTo)
             throws BadRequestException {
-        roomDAO.bookRoom(roomId, userId, dateFrom, dateTo, moneyPaid);
+        roomDAO.bookRoom(roomId, userId, dateFrom, dateTo);
     }
 
     public void cancelReservation(long orderId) {
@@ -40,7 +40,4 @@ public class RoomService {
         return roomDAO.findById(id);
     }
 
-    public List<Room> getAll() {
-        return roomDAO.getAll();
-    }
 }

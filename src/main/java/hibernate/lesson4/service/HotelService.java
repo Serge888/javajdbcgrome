@@ -16,10 +16,6 @@ public class HotelService {
         return hotelDAO.findHotelByCity(city);
     }
 
-    public List<Hotel> getAll() {
-        return hotelDAO.getAll();
-    }
-
     public Hotel save(Hotel hotel) {
         return hotelDAO.save(hotel);
     }

@@ -7,8 +7,8 @@ public class Filter {
     private Integer numberOfGuests;
     private Double maxPrice;
     private Double minPrice;
-    private boolean breakfastIncluded;
-    private boolean petsAllowed;
+    private Integer breakfastIncluded;
+    private Integer petsAllowed;
     private Date dateAvailableFrom;
     //hotel
     private String name;
@@ -39,19 +39,19 @@ public class Filter {
         this.minPrice = minPrice;
     }
 
-    public boolean isBreakfastIncluded() {
+    public Integer isBreakfastIncluded() {
         return breakfastIncluded;
     }
 
-    public void setBreakfastIncluded(boolean breakfastIncluded) {
+    public void setBreakfastIncluded(Integer breakfastIncluded) {
         this.breakfastIncluded = breakfastIncluded;
     }
 
-    public boolean isPetsAllowed() {
+    public Integer isPetsAllowed() {
         return petsAllowed;
     }
 
-    public void setPetsAllowed(boolean petsAllowed) {
+    public void setPetsAllowed(Integer petsAllowed) {
         this.petsAllowed = petsAllowed;
     }
 

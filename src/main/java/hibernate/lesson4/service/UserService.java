@@ -7,7 +7,10 @@ import jdbc.lesson4.hw.exception.BadRequestException;
 public class UserService {
     UserDAO userDAO = new UserDAO();
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws BadRequestException {
+        if (userDAO.findByUserName(user.getUserName()) != null) {
+            throw new BadRequestException( "User " + user.getUserName() + " already exists.");
+        }
         return userDAO.registerUser(user);
     }
 

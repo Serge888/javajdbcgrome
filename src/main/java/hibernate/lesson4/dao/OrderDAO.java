@@ -9,11 +9,10 @@ import java.util.*;
 public class OrderDAO extends GeneralDAO<Order> {
 
     public Order save(Order order) throws BadRequestException {
-        RoomDAO roomDAO = new RoomDAO();
         orderValidation(order);
         Room room = order.getRoom();
         room.setDateAvailableFrom(order.getDateTo());
-        roomDAO.update(room);
+        RoomDAO.getInstance().update(room);
         return saveEntity(order);
     }
 
@@ -35,9 +34,8 @@ public class OrderDAO extends GeneralDAO<Order> {
     }
 
     private void orderValidation(Order order) throws BadRequestException {
-        RoomDAO roomDAO = new RoomDAO();
         long roomId = order.getRoom().getId();
-        Room room = roomDAO.findById(roomId);
+        Room room = RoomDAO.getInstance().findById(roomId);
         if (room == null) {
             throw new BadRequestException("Room with id " + roomId + " doesn't exists.");
         }

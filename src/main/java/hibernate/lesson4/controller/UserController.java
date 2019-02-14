@@ -7,7 +7,7 @@ import jdbc.lesson4.hw.exception.BadRequestException;
 public class UserController {
     UserService userService = new UserService();
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws BadRequestException {
         return userService.registerUser(user);
     }
 
