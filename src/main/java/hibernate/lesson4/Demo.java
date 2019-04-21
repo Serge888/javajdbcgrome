@@ -30,7 +30,7 @@ public class Demo {
         RoomController roomController = new RoomController();
         OrderController orderController = new OrderController();
 
-//        System.out.println(hotelController.findHoteByName("hotel2"));
+        System.out.println(hotelController.findHoteByName("hotel2"));
 
 //        User user3 = new User();
 //        user3.setUserName("user3");
