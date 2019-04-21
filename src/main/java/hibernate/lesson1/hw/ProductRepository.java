@@ -1,7 +1,7 @@
 package hibernate.lesson1.hw;
 
 import hibernate.lesson1.HibernateUtils;
-import hibernate.lesson1.Product;
+import hibernate.lesson2.Product;
 import org.hibernate.Session;
 
 public class ProductRepository {

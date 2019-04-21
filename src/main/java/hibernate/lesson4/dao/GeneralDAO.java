@@ -3,12 +3,10 @@ package hibernate.lesson4.dao;
 import hibernate.lesson4.exception.BadRequestException;
 import hibernate.lesson4.factory.InstanceFactory;
 import org.hibernate.*;
-import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("Duplicates")
 public class GeneralDAO <T> {
     private SessionFactory sessionFactory = InstanceFactory.getInstanceSessionFactory();
 

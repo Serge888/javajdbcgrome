@@ -52,7 +52,7 @@ public class ProductDAO {
             transaction.commit();
 
         } catch (HibernateException e) {
-            System.err.println("update is failed");
+            System.err.println("updateEntity is failed");
             System.err.println(e.getMessage());
 
             if (transaction != null) {
@@ -63,7 +63,7 @@ public class ProductDAO {
                 session.close();
             }
         }
-        System.out.println("update is done");
+        System.out.println("updateEntity is done");
         return product;
     }
 
@@ -81,7 +81,7 @@ public class ProductDAO {
             transaction.commit();
 
         } catch (HibernateException e) {
-            System.err.println("delete is failed");
+            System.err.println("deleteEntity is failed");
             System.err.println(e.getMessage());
 
             if (transaction != null) {
@@ -92,7 +92,7 @@ public class ProductDAO {
                 session.close();
             }
         }
-        System.out.println("delete is done");
+        System.out.println("deleteEntity is done");
         return product;
     }
 
@@ -188,7 +188,7 @@ public class ProductDAO {
         System.out.println("Delete is done");
     }
 
-    public SessionFactory createSessionFactory() {
+    private SessionFactory createSessionFactory() {
         //singleton pattern
         if (sessionFactory == null) {
             sessionFactory = new Configuration().configure().buildSessionFactory();

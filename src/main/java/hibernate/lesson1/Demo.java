@@ -1,5 +1,6 @@
 package hibernate.lesson1;
 
+import hibernate.lesson2.Product;
 import org.hibernate.Session;
 
 public class Demo {
