@@ -1,13 +1,14 @@
 package hibernate.lesson4.service;
 
 import hibernate.lesson4.dao.UserDAO;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.User;
 import jdbc.lesson4.hw.exception.BadRequestException;
 
 public class UserService {
-    UserDAO userDAO = new UserDAO();
+    private UserDAO userDAO = InstanceFactory.getInstanceUserDAO();
 
-    public User registerUser(User user) throws BadRequestException {
+    public User registerUser(User user) throws BadRequestException, hibernate.lesson4.exception.BadRequestException {
         if (userDAO.findByUserName(user.getUserName()) != null) {
             throw new BadRequestException( "User " + user.getUserName() + " already exists.");
         }

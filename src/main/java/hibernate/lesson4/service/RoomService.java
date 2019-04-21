@@ -2,13 +2,14 @@ package hibernate.lesson4.service;
 
 import hibernate.lesson4.dao.RoomDAO;
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Filter;
 import hibernate.lesson4.model.Room;
 
 import java.util.*;
 
 public class RoomService {
-    RoomDAO roomDAO = new RoomDAO();
+    private RoomDAO roomDAO = InstanceFactory.getInstanceRoomDAO();
 
     public List<Room> findRooms(Filter filter) throws Exception {
         return roomDAO.findRooms(filter);
@@ -24,7 +25,7 @@ public class RoomService {
     }
 
 
-    public Room save(Room room) {
+    public Room save(Room room) throws BadRequestException {
         return roomDAO.save(room);
     }
 

@@ -1,15 +1,17 @@
 package hibernate.lesson4.controller;
 
+import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Hotel;
 import hibernate.lesson4.service.HotelService;
 
 import java.util.List;
 
 public class HotelController {
-    HotelService hotelService = new HotelService();
+    private HotelService hotelService = InstanceFactory.getInstanceHotelService();
 
     public List<Hotel> findHoteByName(String name) {
-        return hotelService.findHoteByName(name);
+        return hotelService.findHotelByName(name);
     }
 
     public List<Hotel> findHotelByCity(String city) {
@@ -17,7 +19,13 @@ public class HotelController {
     }
 
     public Hotel save(Hotel hotel) {
-        return hotelService.save(hotel);
+
+        try {
+            hotelService.save(hotel);
+        } catch (BadRequestException e) {
+            e.printStackTrace();
+        }
+        return hotel;
     }
 
     public Hotel update(Hotel hotel) {

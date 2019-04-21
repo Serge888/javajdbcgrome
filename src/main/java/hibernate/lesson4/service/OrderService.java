@@ -2,10 +2,11 @@ package hibernate.lesson4.service;
 
 import hibernate.lesson4.dao.OrderDAO;
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Order;
 
 public class OrderService {
-    OrderDAO orderDAO = new OrderDAO();
+    private OrderDAO orderDAO = InstanceFactory.getInstanceOrderDAO();
 
     public Order save(Order order) throws BadRequestException {
         return orderDAO.save(order);

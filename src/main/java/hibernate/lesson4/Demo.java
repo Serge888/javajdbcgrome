@@ -9,11 +9,20 @@ import hibernate.lesson4.model.Filter;
 import hibernate.lesson4.model.Hotel;
 import hibernate.lesson4.model.Room;
 import hibernate.lesson4.model.User;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
+import javax.persistence.Tuple;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static hibernate.lesson4.model.UserType.*;
-
+@SuppressWarnings("Duplicates")
 public class Demo {
     public static void main(String[] args) throws Exception {
         UserController userController = new UserController();
@@ -21,6 +30,7 @@ public class Demo {
         RoomController roomController = new RoomController();
         OrderController orderController = new OrderController();
 
+//        System.out.println(hotelController.findHoteByName("hotel2"));
 
 //        User user3 = new User();
 //        user3.setUserName("user3");
@@ -89,11 +99,12 @@ public class Demo {
 //        roomController.cancelReservation(1);
 
         Filter filter = new Filter();
-        filter.setCity("NY");
+        filter.setCity("London");
         filter.setMaxPrice(60.00);
-//        filter.setBreakfastIncluded(1);
+        filter.setBreakfastIncluded(1);
 
         System.out.println(roomController.findRooms(filter));
+
 
 //        System.out.println(hotelController.findHotelByCity("NY"));
 

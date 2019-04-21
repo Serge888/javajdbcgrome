@@ -1,33 +1,27 @@
 package hibernate.lesson4.dao;
 
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.*;
+import hibernate.lesson4.model.Order;
+import org.hibernate.Session;
 
+import javax.persistence.criteria.*;
 import java.util.*;
 
 public class RoomDAO extends GeneralDAO<Room> {
-    private static RoomDAO instance;
+    private String hqlFindById = "from Room where id = ";
 
-    public RoomDAO() {
-    }
-
-    public static RoomDAO getInstance() {
-        if (instance == null) {
-            instance = new RoomDAO();
-        }
-        return instance;
-    }
-
-    private UserDAO userDAO = new UserDAO();
-    private OrderDAO orderDAO = new OrderDAO();
+    private UserDAO userDAO = InstanceFactory.getInstanceUserDAO();
+    private OrderDAO orderDAO = InstanceFactory.getInstanceOrderDAO();
 
 
     public List<Room> findRooms(Filter filter) throws Exception {
-        List<Room> rooms = new ArrayList<>(findEntityBy(createRequestByFiltr(filter)));
-        if (rooms.size() > 0) {
-            return foundRoomsByHotelFilter(filter, rooms);
-            }
-        throw new BadRequestException("No matching rooms found.");
+        List<Room> rooms = foundRoomsByHotelFilter(filter);
+        if (rooms == null || rooms.size() == 0) {
+            throw new BadRequestException("No matching rooms found.");
+        }
+        return rooms;
     }
 
 
@@ -47,7 +41,7 @@ public class RoomDAO extends GeneralDAO<Room> {
     }
 
 
-    public Room save(Room room) {
+    public Room save(Room room) throws BadRequestException {
         return saveEntity(room);
     }
 
@@ -60,13 +54,21 @@ public class RoomDAO extends GeneralDAO<Room> {
     }
 
     public Room findById(long id) {
-        String hqlFindById = "from Room where id = " + id;
-        return findEntityBy(hqlFindById).get(0);
+        return findEntityBy(hqlFindById + id).get(0);
     }
 
 
-    private String createRequestByFiltr(Filter filter) {
-        String hqlFilterRequest = "from Room";
+    private List<Room> foundRoomsByHotelFilter(Filter filter) {
+        Session session = InstanceFactory.getInstanceSessionFactory().openSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        CriteriaQuery<Room> criteriaQuery = builder.createQuery(Room.class);
+        Root<Room> rootRoom = criteriaQuery.from(Room.class);
+        criteriaQuery.select(rootRoom);
+        Join<Room, Hotel> hotelJoin = rootRoom.join("hotel");
+
+        List<Predicate> restrictions = new ArrayList<>();
+
         if (filter.getDateAvailableFrom() != null
             || filter.isBreakfastIncluded() != null
             || filter.isPetsAllowed() != null
@@ -74,80 +76,42 @@ public class RoomDAO extends GeneralDAO<Room> {
             || filter.getMaxPrice() != null
             || filter.getMinPrice() != null) {
 
-            List<String> criteria = new ArrayList<>();
-            criteria.add(" where"); // criteria(0)
-            criteria.add(" and"); // criteria(1)
-            // criteria(2)
             if (filter.getDateAvailableFrom() != null) {
-                criteria.add(" DATE_AVAILABLE_FROM < " + filter.getDateAvailableFrom());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.lessThan(rootRoom.get("dateAvailableFrom"), filter.getDateAvailableFrom()));
             }
-            // criteria(3)
             if (filter.isBreakfastIncluded() != null) {
-                criteria.add(" BREAKFAST_INCLUDED = " + filter.isBreakfastIncluded());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.equal(rootRoom.get("breakfastIncluded"), filter.isBreakfastIncluded()));
             }
-            // criteria(4)
             if (filter.isPetsAllowed() != null) {
-                criteria.add(" PETS_ALLOWED = " + filter.isPetsAllowed());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.equal(rootRoom.get("petsAllowed"), filter.isPetsAllowed()));
             }
-            // criteria(5)
             if (filter.getNumberOfGuests() != null) {
-                criteria.add(" NUMBER_OF_GUESTS = " + filter.getNumberOfGuests());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.equal(rootRoom.get("numberOfGuests"), filter.getNumberOfGuests()));
             }
-            // criteria(6)
             if (filter.getMaxPrice() != null) {
-                criteria.add(" PRICE >= " + filter.getMaxPrice());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.lessThanOrEqualTo(rootRoom.get("price"), filter.getMaxPrice()));
             }
-            // criteria(7)
             if (filter.getMinPrice() != null) {
-                criteria.add(" PRICE <= " + filter.getMaxPrice());
-            } else {
-                criteria.add(null);
+                restrictions.add(builder.greaterThanOrEqualTo(rootRoom.get("price"), filter.getMinPrice()));
             }
-            int i = 2;
-            while (criteria.get(i) == null) {
-                i++;
+            if (filter.getName() != null) {
+                restrictions.add(builder.equal(hotelJoin.get("name"), filter.getName()));
             }
-            hqlFilterRequest = hqlFilterRequest + criteria.get(0) + criteria.get(i);
+            if (filter.getCountry() != null) {
+                restrictions.add(builder.equal(hotelJoin.get("country"), filter.getCountry()));
+            }
+            if (filter.getCity() != null) {
+                restrictions.add(builder.equal(hotelJoin.get("city"), filter.getCity()));
+            }
 
-            for (i = i + 1; i < 8; i++) {
-                if (criteria.get(i) != null) {
-                    hqlFilterRequest = hqlFilterRequest + criteria.get(1) + criteria.get(i);
-                }
+            if (!restrictions.isEmpty()) {
+                Predicate[] predicates = new Predicate[restrictions.size()];
+                restrictions.toArray(predicates);
+                criteriaQuery.where(predicates);
+                return session.createQuery(criteriaQuery).list();
             }
         }
-        return hqlFilterRequest;
+        return null;
     }
 
-    private List<Room> foundRoomsByHotelFilter(Filter filter, List<Room> rooms) throws Exception {
-        List<Room> foundRooms = new ArrayList<>();
-        if (filter.getName() != null
-                || filter.getCountry() != null
-                || filter.getCity() != null) {
-            for (Room room : rooms) {
-                if (filter.getName() != null && filter.getName().equals(room.getHotel().getName())) {
-                    foundRooms.add(room);
-                } else if (filter.getCountry() != null && filter.getCountry().equals(room.getHotel().getCountry())) {
-                    foundRooms.add(room);
-                } else if (filter.getCity() != null && filter.getCity().equals(room.getHotel().getCity())) {
-                    foundRooms.add(room);
-                }
-            }
-            if (foundRooms.size() == 0) {
-                throw new BadRequestException("No matching rooms found.");
-            }
-        } else {
-            foundRooms = rooms;
-        }
-        return foundRooms;
-    }
 }

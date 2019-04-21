@@ -1,6 +1,7 @@
 package hibernate.lesson4.controller;
 
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Filter;
 import hibernate.lesson4.model.Room;
 import hibernate.lesson4.service.RoomService;
@@ -9,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class RoomController {
-    RoomService roomService = new RoomService();
+    private RoomService roomService = InstanceFactory.getInstanceRoomService();
 
     public List<Room> findRooms(Filter filter) throws Exception {
         return roomService.findRooms(filter);
@@ -26,7 +27,12 @@ public class RoomController {
 
 
     public Room save(Room room) {
-        return roomService.save(room);
+        try {
+            return roomService.save(room);
+        } catch (BadRequestException e) {
+            e.printStackTrace();
+        }
+        return room;
     }
 
     public Room update(Room room) {

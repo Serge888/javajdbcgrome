@@ -1,22 +1,24 @@
 package hibernate.lesson4.service;
 
 import hibernate.lesson4.dao.HotelDAO;
+import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Hotel;
 
 import java.util.List;
 
 public class HotelService {
-    HotelDAO hotelDAO = new HotelDAO();
+    private HotelDAO hotelDAO = InstanceFactory.getInstanceHotelDAO();
 
-    public List<Hotel> findHoteByName(String name) {
-        return hotelDAO.findHoteByName(name);
+    public List<Hotel> findHotelByName(String name) {
+        return hotelDAO.findHotelByName(name);
     }
 
     public List<Hotel> findHotelByCity(String city) {
         return hotelDAO.findHotelByCity(city);
     }
 
-    public Hotel save(Hotel hotel) {
+    public Hotel save(Hotel hotel) throws BadRequestException {
         return hotelDAO.save(hotel);
     }
 

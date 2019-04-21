@@ -5,9 +5,11 @@ import hibernate.lesson4.model.UserType;
 import jdbc.lesson4.hw.exception.BadRequestException;
 
 public class UserDAO extends GeneralDAO<User> {
+    private String hqlFindById = "from User where ID = ";
+    private String hqlFindByUserName = "from User where USER_NAME = ";
     public static UserType loggedUserType = null;
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws hibernate.lesson4.exception.BadRequestException {
         return saveEntity(user);
     }
 
@@ -35,13 +37,11 @@ public class UserDAO extends GeneralDAO<User> {
     }
 
     public User findById(long id) {
-        String hqlFindById = "from User where ID = " + id;
-        return findEntityBy(hqlFindById).get(0);
+        return findEntityBy(hqlFindById + id).get(0);
     }
 
     public User findByUserName(String userName) {
-        String hqlFindByUserName = "from User where USER_NAME = '" + userName + "'";
-        return findEntityBy(hqlFindByUserName).get(0);
+        return findEntityBy(hqlFindByUserName + "'" + userName + "'").get(0);
     }
 
 }

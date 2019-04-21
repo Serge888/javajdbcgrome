@@ -1,18 +1,20 @@
 package hibernate.lesson4.dao;
 
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Order;
 import hibernate.lesson4.model.Room;
 
 import java.util.*;
 
 public class OrderDAO extends GeneralDAO<Order> {
+    private String hqlFindById = "from Order where id = ";
 
     public Order save(Order order) throws BadRequestException {
         orderValidation(order);
         Room room = order.getRoom();
         room.setDateAvailableFrom(order.getDateTo());
-        RoomDAO.getInstance().update(room);
+        InstanceFactory.getInstanceRoomDAO().update(room);
         return saveEntity(order);
     }
 
@@ -29,13 +31,12 @@ public class OrderDAO extends GeneralDAO<Order> {
     }
 
     public Order findById(long id) {
-        String hqlFindById = "from Order where id = " + id;
-        return findEntityBy(hqlFindById).get(0);
+        return findEntityBy(hqlFindById + id).get(0);
     }
 
     private void orderValidation(Order order) throws BadRequestException {
         long roomId = order.getRoom().getId();
-        Room room = RoomDAO.getInstance().findById(roomId);
+        Room room = InstanceFactory.getInstanceRoomDAO().findById(roomId);
         if (room == null) {
             throw new BadRequestException("Room with id " + roomId + " doesn't exists.");
         }

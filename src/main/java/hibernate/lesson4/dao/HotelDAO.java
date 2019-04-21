@@ -1,23 +1,29 @@
 package hibernate.lesson4.dao;
 
 
+import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Hotel;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 
 public class HotelDAO extends GeneralDAO<Hotel> {
+    private String hqlFindByName = "from Hotel where name = ";
+    private String hqlFindByCity = "from Hotel where CITY = '";
+    private String hqlFindById = "from Hotel where id = ";
 
-    public List<Hotel> findHoteByName(String name) {
-        String hqlFindByName = "from Hotel where NAME = '" + name + "'";
-        return findEntityBy(hqlFindByName);
+    private SessionFactory sessionFactory = InstanceFactory.getInstanceSessionFactory();
+
+    public List<Hotel> findHotelByName(String name) {
+        return findEntityBy(hqlFindByName + "'" + name + "'");
     }
 
     public List<Hotel> findHotelByCity(String city) {
-        String hqlFindByCity = "from Hotel where CITY = '" + city + "'";
-        return findEntityBy(hqlFindByCity);
+        return findEntityBy(hqlFindByCity + "'" +  city + "'");
     }
 
-    public Hotel save(Hotel hotel) {
+    public Hotel save(Hotel hotel) throws BadRequestException {
         return saveEntity(hotel);
     }
 
@@ -30,8 +36,7 @@ public class HotelDAO extends GeneralDAO<Hotel> {
     }
 
     public Hotel findById(long id) {
-        String hqlFindById = "from Hotel where id = " + id;
-        return findEntityBy(hqlFindById).get(0);
+        return findEntityBy(hqlFindById + id).get(0);
     }
 
 

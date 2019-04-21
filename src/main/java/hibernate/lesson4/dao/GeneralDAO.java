@@ -1,19 +1,22 @@
 package hibernate.lesson4.dao;
 
+import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import org.hibernate.*;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("Duplicates")
 public class GeneralDAO <T> {
-    private SessionFactory sessionFactory;
+    private SessionFactory sessionFactory = InstanceFactory.getInstanceSessionFactory();
 
-    public T saveEntity(T t) {
+    public T saveEntity(T t) throws BadRequestException {
         Session session = null;
-        Transaction transaction = null;
+        Transaction transaction;
         try {
-            session = createSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.getTransaction();
             transaction.begin();
 
@@ -22,12 +25,8 @@ public class GeneralDAO <T> {
             transaction.commit();
             System.out.println("save is done");
         } catch (HibernateException e) {
-            System.err.println("save is failed");
             System.err.println(e.getMessage());
-
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            throw new BadRequestException("save " + t + "is failed");
         } finally {
             if (session != null) {
                 session.close();
@@ -40,7 +39,7 @@ public class GeneralDAO <T> {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = createSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.getTransaction();
             transaction.begin();
 
@@ -68,7 +67,7 @@ public class GeneralDAO <T> {
         Session session = null;
         Transaction transaction = null;
         try {
-            session = createSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.getTransaction();
             transaction.begin();
 
@@ -90,13 +89,12 @@ public class GeneralDAO <T> {
         }
     }
 
-
-    public List<T> findEntityBy(String hql) {
+    List<T> findEntityBy(String hql) {
         List<T> foundObjects = new ArrayList<>();
         Session session = null;
         Transaction transaction = null;
         try {
-            session = createSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.getTransaction();
             transaction.begin();
 
@@ -119,16 +117,6 @@ public class GeneralDAO <T> {
             }
         }
         return foundObjects;
-    }
-
-
-
-
-    private SessionFactory createSessionFactory() {
-        if (sessionFactory == null) {
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        }
-        return sessionFactory;
     }
 
 }

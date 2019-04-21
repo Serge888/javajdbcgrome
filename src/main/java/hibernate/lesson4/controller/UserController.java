@@ -1,14 +1,21 @@
 package hibernate.lesson4.controller;
 
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.User;
 import hibernate.lesson4.service.UserService;
 import jdbc.lesson4.hw.exception.BadRequestException;
 
 public class UserController {
-    UserService userService = new UserService();
+    private UserService userService = InstanceFactory.getInstanceUserService();
 
-    public User registerUser(User user) throws BadRequestException {
-        return userService.registerUser(user);
+    public User registerUser(User user) {
+
+        try {
+            return userService.registerUser(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     public void login(String userName, String password) throws BadRequestException {
