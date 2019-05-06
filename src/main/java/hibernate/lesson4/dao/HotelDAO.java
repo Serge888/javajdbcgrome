@@ -13,7 +13,6 @@ public class HotelDAO extends GeneralDAO<Hotel> {
     private String hqlFindByCity = "from Hotel where CITY = '";
     private String hqlFindById = "from Hotel where id = ";
 
-    private SessionFactory sessionFactory = InstanceFactory.getInstanceSessionFactory();
 
     public List<Hotel> findHotelByName(String name) {
         return findEntityBy(hqlFindByName + "'" + name + "'");

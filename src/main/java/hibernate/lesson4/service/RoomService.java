@@ -9,7 +9,7 @@ import hibernate.lesson4.model.Room;
 import java.util.*;
 
 public class RoomService {
-    private RoomDAO roomDAO = InstanceFactory.getInstanceRoomDAO();
+    private RoomDAO roomDAO = InstanceFactory.instanceRoomDAO;
 
     public List<Room> findRooms(Filter filter) throws Exception {
         return roomDAO.findRooms(filter);

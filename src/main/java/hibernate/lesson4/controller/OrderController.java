@@ -6,7 +6,7 @@ import hibernate.lesson4.model.Order;
 import hibernate.lesson4.service.OrderService;
 
 public class OrderController {
-    private OrderService  orderService = InstanceFactory.getInstanceOrderService();
+    private OrderService  orderService = InstanceFactory.instanceOrderService;
 
         public Order save(Order order) {
             try {

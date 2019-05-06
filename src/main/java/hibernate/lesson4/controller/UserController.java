@@ -6,7 +6,7 @@ import hibernate.lesson4.service.UserService;
 import jdbc.lesson4.hw.exception.BadRequestException;
 
 public class UserController {
-    private UserService userService = InstanceFactory.getInstanceUserService();
+    private UserService userService = InstanceFactory.instanceUserService;
 
     public User registerUser(User user) {
 

@@ -6,7 +6,7 @@ import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Order;
 
 public class OrderService {
-    private OrderDAO orderDAO = InstanceFactory.getInstanceOrderDAO();
+    private OrderDAO orderDAO = InstanceFactory.instanceOrderDAO;
 
     public Order save(Order order) throws BadRequestException {
         return orderDAO.save(order);

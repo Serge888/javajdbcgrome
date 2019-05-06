@@ -6,7 +6,7 @@ import hibernate.lesson4.model.User;
 import jdbc.lesson4.hw.exception.BadRequestException;
 
 public class UserService {
-    private UserDAO userDAO = InstanceFactory.getInstanceUserDAO();
+    private UserDAO userDAO = InstanceFactory.instanceUserDAO;
 
     public User registerUser(User user) throws BadRequestException, hibernate.lesson4.exception.BadRequestException {
         if (userDAO.findByUserName(user.getUserName()) != null) {

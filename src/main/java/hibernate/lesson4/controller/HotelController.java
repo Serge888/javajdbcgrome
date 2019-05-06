@@ -8,7 +8,7 @@ import hibernate.lesson4.service.HotelService;
 import java.util.List;
 
 public class HotelController {
-    private HotelService hotelService = InstanceFactory.getInstanceHotelService();
+    private HotelService hotelService = InstanceFactory.instanceHotelService;
 
     public List<Hotel> findHoteByName(String name) {
         return hotelService.findHotelByName(name);

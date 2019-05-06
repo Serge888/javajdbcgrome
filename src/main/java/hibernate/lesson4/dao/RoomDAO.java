@@ -12,8 +12,8 @@ import java.util.*;
 public class RoomDAO extends GeneralDAO<Room> {
     private String hqlFindById = "from Room where id = ";
 
-    private UserDAO userDAO = InstanceFactory.getInstanceUserDAO();
-    private OrderDAO orderDAO = InstanceFactory.getInstanceOrderDAO();
+    private UserDAO userDAO = InstanceFactory.instanceUserDAO;
+    private OrderDAO orderDAO = InstanceFactory.instanceOrderDAO;
 
 
     public List<Room> findRooms(Filter filter) throws Exception {
@@ -59,7 +59,7 @@ public class RoomDAO extends GeneralDAO<Room> {
 
 
     private List<Room> foundRoomsByHotelFilter(Filter filter) {
-        Session session = InstanceFactory.getInstanceSessionFactory().openSession();
+        Session session = InstanceFactory.sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
         CriteriaQuery<Room> criteriaQuery = builder.createQuery(Room.class);
@@ -110,6 +110,7 @@ public class RoomDAO extends GeneralDAO<Room> {
                 criteriaQuery.where(predicates);
                 return session.createQuery(criteriaQuery).list();
             }
+
         }
         return null;
     }

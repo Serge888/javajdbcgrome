@@ -8,7 +8,7 @@ import hibernate.lesson4.model.Hotel;
 import java.util.List;
 
 public class HotelService {
-    private HotelDAO hotelDAO = InstanceFactory.getInstanceHotelDAO();
+    private HotelDAO hotelDAO = InstanceFactory.instanceHotelDAO;
 
     public List<Hotel> findHotelByName(String name) {
         return hotelDAO.findHotelByName(name);

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class RoomController {
-    private RoomService roomService = InstanceFactory.getInstanceRoomService();
+    private RoomService roomService = InstanceFactory.instanceRoomService;
 
     public List<Room> findRooms(Filter filter) throws Exception {
         return roomService.findRooms(filter);

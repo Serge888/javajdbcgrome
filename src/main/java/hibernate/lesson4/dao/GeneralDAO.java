@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralDAO <T> {
-    private SessionFactory sessionFactory = InstanceFactory.getInstanceSessionFactory();
+    private SessionFactory sessionFactory = InstanceFactory.sessionFactory;
 
     public T saveEntity(T t) throws BadRequestException {
         try (Session session = sessionFactory.openSession()) {
