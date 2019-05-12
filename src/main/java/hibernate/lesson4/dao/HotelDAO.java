@@ -2,7 +2,9 @@ package hibernate.lesson4.dao;
 
 
 import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Hotel;
+import org.hibernate.Session;
 
 import java.util.List;
 
@@ -33,7 +35,9 @@ public class HotelDAO extends GeneralDAO<Hotel> {
     }
 
     public Hotel findById(long id) {
-        return findEntityByHql(hqlFindById + id).get(0);
+        try (Session session = InstanceFactory.sessionFactory.openSession()) {
+            return session.get(Hotel.class, id);
+        }
     }
 
 

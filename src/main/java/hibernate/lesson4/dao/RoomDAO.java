@@ -54,7 +54,9 @@ public class RoomDAO extends GeneralDAO<Room> {
     }
 
     public Room findById(long id) {
-        return findEntityByHql(hqlFindById + id).get(0);
+        try (Session session = InstanceFactory.sessionFactory.openSession()) {
+            return session.get(Room.class, id);
+        }
     }
 
 
