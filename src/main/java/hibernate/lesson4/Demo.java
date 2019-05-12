@@ -4,11 +4,9 @@ import hibernate.lesson4.controller.HotelController;
 import hibernate.lesson4.controller.OrderController;
 import hibernate.lesson4.controller.RoomController;
 import hibernate.lesson4.controller.UserController;
+import hibernate.lesson4.dao.OrderDAO;
 import hibernate.lesson4.exception.BadRequestException;
-import hibernate.lesson4.model.Filter;
-import hibernate.lesson4.model.Hotel;
-import hibernate.lesson4.model.Room;
-import hibernate.lesson4.model.User;
+import hibernate.lesson4.model.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,7 +14,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import javax.persistence.Tuple;
-import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,17 +27,17 @@ public class Demo {
         RoomController roomController = new RoomController();
         OrderController orderController = new OrderController();
 
-        System.out.println(hotelController.findHoteByName("hotel2"));
+//        System.out.println(hotelController.findHoteByName("hotel2"));
 
 //        User user3 = new User();
-//        user3.setUserName("user3");
-//        user3.setPassword("user3");
+//        user3.setUserName("user5");
+//        user3.setPassword("user5");
 //        user3.setCountry("US");
 //        user3.setUserType(ADMIN);
 //
 //        User user4 = new User();
-//        user4.setUserName("user4");
-//        user4.setPassword("user4");
+//        user4.setUserName("user6");
+//        user4.setPassword("user6");
 //        user4.setCountry("UK");
 //        user4.setUserType(USER);
 //
@@ -105,6 +102,14 @@ public class Demo {
 
         System.out.println(roomController.findRooms(filter));
 
+//
+//        OrderDAO orderDAO = new OrderDAO();
+//        Order order = new hibernate.lesson4.model.Order();
+//        order.setDateFrom(new Date());
+//        order.setRoom(roomController.findRooms(filter).get(0));
+//        order.setMoneyPaid(100.89);
+//        order.setUserOrdered(userController.findById(1L));
+//        orderDAO.save(order);
 
 //        System.out.println(hotelController.findHotelByCity("NY"));
 

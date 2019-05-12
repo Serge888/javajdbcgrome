@@ -1,8 +1,12 @@
 package hibernate.lesson4.dao;
 
+import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.User;
 import hibernate.lesson4.model.UserType;
 import jdbc.lesson4.hw.exception.BadRequestException;
+import org.hibernate.Session;
+
+import java.util.List;
 
 public class UserDAO extends GeneralDAO<User> {
     private String hqlFindById = "from User where ID = ";
@@ -37,11 +41,18 @@ public class UserDAO extends GeneralDAO<User> {
     }
 
     public User findById(long id) {
-        return findEntityBy(hqlFindById + id).get(0);
+        try (Session session = InstanceFactory.sessionFactory.openSession()) {
+            return session.get(User.class, id);
+        }
     }
 
     public User findByUserName(String userName) {
-        return findEntityBy(hqlFindByUserName + "'" + userName + "'").get(0);
+        List<User> users = findEntityByHql(hqlFindByUserName + "'" + userName + "'");
+        if (users.size() > 0) {
+            return users.get(0);
+        } else {
+            return null;
+        }
     }
 
 }

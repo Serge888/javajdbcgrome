@@ -1,8 +1,8 @@
 package hibernate.lesson4.exception;
 
-import java.io.IOException;
+import org.hibernate.HibernateException;
 
-public class InternalServerException extends IOException {
+public class InternalServerException extends HibernateException {
     public InternalServerException(String message) {
         super(message);
     }

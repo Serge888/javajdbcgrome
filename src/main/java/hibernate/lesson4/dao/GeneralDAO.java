@@ -1,6 +1,6 @@
 package hibernate.lesson4.dao;
 
-import hibernate.lesson4.exception.BadRequestException;
+import hibernate.lesson4.exception.InternalServerException;
 import hibernate.lesson4.factory.InstanceFactory;
 import org.hibernate.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class GeneralDAO <T> {
     private SessionFactory sessionFactory = InstanceFactory.sessionFactory;
 
-    public T saveEntity(T t) throws BadRequestException {
+    public T saveEntity(T t) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
@@ -19,9 +19,9 @@ public class GeneralDAO <T> {
 
             transaction.commit();
             System.out.println("save is done");
-        } catch (HibernateException e) {
+        } catch (InternalServerException e) {
             System.err.println(e.getMessage());
-            throw new BadRequestException("save " + t + "is failed");
+            throw new InternalServerException("save " + t + "is failed");
         }
         return t;
     }
@@ -58,7 +58,7 @@ public class GeneralDAO <T> {
         }
     }
 
-    List<T> findEntityBy(String hql) {
+    List<T> findEntityByHql(String hql) {
         List<T> foundObjects = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
@@ -74,5 +74,6 @@ public class GeneralDAO <T> {
         }
         return foundObjects;
     }
+
 
 }

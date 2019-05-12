@@ -2,9 +2,7 @@ package hibernate.lesson4.dao;
 
 
 import hibernate.lesson4.exception.BadRequestException;
-import hibernate.lesson4.factory.InstanceFactory;
 import hibernate.lesson4.model.Hotel;
-import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -15,11 +13,11 @@ public class HotelDAO extends GeneralDAO<Hotel> {
 
 
     public List<Hotel> findHotelByName(String name) {
-        return findEntityBy(hqlFindByName + "'" + name + "'");
+        return findEntityByHql(hqlFindByName + "'" + name + "'");
     }
 
     public List<Hotel> findHotelByCity(String city) {
-        return findEntityBy(hqlFindByCity + "'" +  city + "'");
+        return findEntityByHql(hqlFindByCity + "'" +  city + "'");
     }
 
     public Hotel save(Hotel hotel) throws BadRequestException {
@@ -35,7 +33,7 @@ public class HotelDAO extends GeneralDAO<Hotel> {
     }
 
     public Hotel findById(long id) {
-        return findEntityBy(hqlFindById + id).get(0);
+        return findEntityByHql(hqlFindById + id).get(0);
     }
 
 
